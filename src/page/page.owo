@@ -18,9 +18,28 @@
       runing: true,
     },
     created: function () {
+      console.log('sd')
       this.data.clock = new THREE.Clock()
 			this.init()
+      
 			this.animate()
+    },
+    creatText: function () {
+      new THREE.FontLoader().load('@|FZLTHJW.json|', (font) => {
+        const textGeo = new THREE.TextGeometry('hellow', {
+          size: 14,
+          font,
+        })
+        var mat = new THREE.MeshPhongMaterial({
+          color: 0xffe502,
+          specular: 0x009900,
+          shininess: 30,
+          shading: THREE.FlatShading
+        });
+        var textObj = new THREE.Mesh(textGeo, mat)
+        textObj.position.set( -28, 232, 0 )
+        this.data.scene.add( textObj );
+      })
     },
     init: function () {
       // 创建摄像机
@@ -48,7 +67,7 @@
       this.data.scene.add( this.data.light );
 
       // this.data.scene.add( new THREE.CameraHelper( this.data.light.shadow.camera ) );
-
+      this.creatText()
       // 网格线
       var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
       grid.material.opacity = 0.2;
@@ -78,7 +97,7 @@
       this.$el.appendChild( this.data.renderer.domElement );
     },
     animate: function () {
-
+      
       var delta = this.data.clock.getDelta();
       if (this.data.runing) {
         // 旋转模型
